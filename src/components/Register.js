@@ -143,7 +143,7 @@ export default function Register() {
               
               className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
                 errors.name ? 'border-red-500' : 'border-gray-300'
-              } placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+              } placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
               placeholder="Full Name"
               value={formValues.name}
               onChange={handleChange}
@@ -162,7 +162,7 @@ export default function Register() {
               
               className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
                 errors.email ? 'border-red-500' : 'border-gray-300'
-              } placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+              } placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
               placeholder="Email address"
               value={formValues.email}
               onChange={handleChange}
@@ -181,7 +181,7 @@ export default function Register() {
               
               className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
                 errors.password ? 'border-red-500' : 'border-gray-300'
-              } placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+              } placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
               placeholder="Password"
               value={formValues.password}
               onChange={handleChange}
@@ -200,7 +200,7 @@ export default function Register() {
               
               className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
                 errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
-              } placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+              } placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
               placeholder="Confirm Password"
               value={formValues.confirmPassword}
               onChange={handleChange}

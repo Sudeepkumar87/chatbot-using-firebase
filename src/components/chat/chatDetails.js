@@ -87,11 +87,7 @@ export default function ChatDetails() {
       // 2. It hasn't been read (check all possible read indicators)
       const isFromFriend = message.uid === friendUid && message.recipientId === user.uid;
       
-      // Consider unread if:
-      // - read field is explicitly false
-      // - read field doesn't exist (old messages)
-      // - readAt doesn't exist
-      // - status is not 'read'
+ 
       const isUnread = message.read === false || 
                        message.read === undefined ||
                        !message.readAt || 
@@ -101,7 +97,7 @@ export default function ChatDetails() {
     }).length;
   };
   
- useEffect(() => {
+  useEffect(() => {
     if (!user || selectedFriend === null || !displayedFriends[selectedFriend] || !messages || messages.length === 0) return;
     
     const selectedFriendUid = displayedFriends[selectedFriend].uid;
@@ -425,7 +421,7 @@ export default function ChatDetails() {
     try {
       await signOut(auth);
     Cookies.remove("auth");
-router.push("/");
+    router.push("/");
     } catch (error) {
       console.error("Error signing out: ", error);
       alert("Error signing out. Please try again.");
@@ -503,9 +499,9 @@ router.push("/");
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
       {/* Friends list sidebar */}
-      <div className="w-1/3 bg-white border-r border-gray-300 flex flex-col">
+      <div className="w-1/3 bg-white dark:bg-gray-800 border-r border-gray-300 dark:border-gray-700 flex flex-col">
           {/* Friends list header */}
           <div className="bg-green-600 text-white p-4">
             <div className="flex justify-between items-center">
@@ -534,12 +530,12 @@ router.push("/");
           </div>
           
           {/* Search bar */}
-          <div className="p-2 bg-gray-100">
+          <div className="p-2 bg-gray-100 dark:bg-gray-700">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Search or start new chat..."
-                className="w-full rounded-full py-2 px-4 text-sm bg-white border border-gray-300 focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="w-full rounded-full py-2 px-4 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-green-500"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -553,7 +549,7 @@ router.push("/");
           <div className="flex-1 overflow-y-auto">
             {loadingUsers ? (
               <div className="flex items-center justify-center h-20">
-                <div className="text-gray-500">Loading...</div>
+                <div className="text-gray-500 dark:text-gray-400">Loading...</div>
               </div>
             ) : errorUsers ? (
               <div className="flex items-center justify-center h-20">
@@ -561,7 +557,7 @@ router.push("/");
               </div>
             ) : displayedFriends.length === 0 ? (
               <div className="flex items-center justify-center h-20 px-4 text-center">
-                <div className="text-gray-500">
+                <div className="text-gray-500 dark:text-gray-400">
                   {searchTerm 
                     ? "No users found matching your search" 
                     : "No conversations yet. Search for a user to start chatting!"}
@@ -571,8 +567,8 @@ router.push("/");
               displayedFriends.map((friend, index) => (
                 <div 
                   key={`${friend.uid}-${index}`} 
-                  className={`flex items-center p-4 border-b border-gray-200 cursor-pointer hover:bg-gray-50 ${
-                    selectedFriend === index ? 'bg-green-50' : ''
+                  className={`flex items-center p-4 border-b border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 ${
+                    selectedFriend === index ? 'bg-green-50 dark:bg-green-900' : ''
                   }`}
                   onClick={() => {
                     setSelectedFriend(index);
@@ -586,7 +582,7 @@ router.push("/");
                   </div>
                   <div className="ml-4 flex-1 min-w-0">
                     <div className="flex justify-between items-center">
-                      <h2 className="font-semibold text-gray-900 truncate">{friend.name || 'Unknown User'}</h2>
+                      <h2 className="font-semibold text-gray-900 dark:text-white truncate">{friend.name || 'Unknown User'}</h2>
                     <div className="flex items-center space-x-2">
                       {getUnreadCount(friend.uid) > 0 && (
                         <span className="bg-green-600 text-white text-xs font-semibold rounded-full px-2 py-0.5 min-w-[20px] text-center">
@@ -596,7 +592,7 @@ router.push("/");
                     </div>
                     </div>
                     <div className="flex justify-between items-center">
-                      <p className="text-sm text-gray-500 truncate">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
                         {searchTerm ? "Start new conversation" : ""}
                       </p>
                     </div>
@@ -647,8 +643,8 @@ router.push("/");
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                       message.uid === user?.uid
-                        ? 'bg-green-100 text-gray-800 rounded-br-none'
-                        : 'bg-white text-gray-800 rounded-bl-none'
+                        ? 'bg-green-100 dark:bg-green-700 text-gray-800 dark:text-white rounded-br-none'
+                        : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-white rounded-bl-none'
                     }`}
                   >
                     {message.isAttachment ? (
@@ -659,7 +655,7 @@ router.push("/");
                             alt={message.text} 
                             className="max-w-full h-auto rounded-lg max-h-60"
                             />
-                          <p className="text-xs mt-1 text-gray-500">{message.text}</p>
+                          <p className="text-xs mt-1 text-gray-500 dark:text-gray-300">{message.text}</p>
                           </div>
                       ) : (
                         <div className="flex items-center">
@@ -679,7 +675,7 @@ router.push("/");
                     ) : (
                       <p>{message.text}</p>
                     )}
-                    <div className={`flex items-center justify-end mt-1 ${message.uid === user?.uid ? 'text-gray-500' : 'text-gray-400'}`}>
+                    <div className={`flex items-center justify-end mt-1 ${message.uid === user?.uid ? 'text-gray-500 dark:text-gray-300' : 'text-gray-400 dark:text-gray-300'}`}>
                       <span className="text-xs">{formatTime(message.createdAt)}</span>
                       {renderReadReceipt(message)}
                     </div>
@@ -689,7 +685,7 @@ router.push("/");
             </div>
           ) : (
             <div className="flex items-center justify-center h-full">
-              <div className="text-center text-gray-500">
+              <div className="text-center text-gray-500 dark:text-gray-400">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
@@ -712,10 +708,10 @@ router.push("/");
         
           {/* Attachment preview */}
         {attachment && (
-          <div className="bg-gray-200 p-4 pt-0">
+          <div className="bg-gray-200 dark:bg-gray-700 p-4 pt-0">
             <div className="flex items-center mb-2">
-              <span className="text-sm text-gray-600 mr-2">{attachment.name}</span>
-              <span className="text-xs text-gray-500">({Math.round(attachment.size / 1024)} KB)</span>
+              <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">{attachment.name}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">({Math.round(attachment.size / 1024)} KB)</span>
             </div>
           {attachmentPreview && (
               <div className="relative inline-block">
@@ -737,13 +733,13 @@ router.push("/");
           
         {/* Message input area - only show when a friend is selected */}
         {selectedFriend !== null && (
-        <div className="bg-gray-200 p-4 sticky bottom-0">
+        <div className="bg-gray-200 dark:bg-gray-800 p-4 sticky bottom-0">
           <div className="flex items-center">
             <div className="flex items-center">
               <button 
                 type="button" 
                 onClick={triggerFileInput}
-                className="text-gray-500 p-2 rounded-full hover:bg-gray-300 focus:outline-none"
+                className="text-gray-500 dark:text-gray-400 p-2 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 focus:outline-none"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -752,7 +748,7 @@ router.push("/");
               <button
                 type="button" 
                 onClick={testStorage}
-                className="text-gray-500 p-2 rounded-full hover:bg-gray-300 focus:outline-none ml-1"
+                className="text-gray-500 dark:text-gray-400 p-2 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 focus:outline-none ml-1"
                 title="Test Storage"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -760,11 +756,11 @@ router.push("/");
                 </svg>
               </button>
             </div>
-            <div className="flex-1 bg-white rounded-full px-4 py-2 mx-2">
+            <div className="flex-1 bg-white dark:bg-gray-700 rounded-full px-4 py-2 mx-2">
               <input
                 type="text"
                 placeholder="Type a message"
-                className="w-full outline-none"
+                className="w-full outline-none text-gray-900 dark:text-white"
                 value={formValue}
                 onChange={(e) => setFormValue(e.target.value)}
                 onKeyPress={(e) => {

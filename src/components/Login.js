@@ -101,7 +101,7 @@ export default function Login() {
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded-md ${
                 errors.email ? 'border-red-500' : 'border-gray-300'
-              }`}
+              } text-gray-900 dark:text-black`}
               placeholder="Email address"
             />
             {errors.email && (
@@ -121,7 +121,7 @@ export default function Login() {
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded-md ${
                 errors.password ? 'border-red-500' : 'border-gray-300'
-              }`}
+              } text-gray-900 dark:text-black`}
               placeholder="Password"
             />
             {errors.password && (
