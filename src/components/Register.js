@@ -5,6 +5,7 @@ import { auth, firestore } from '../components/redux/firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
 
 export default function Register() {
   const [formValues, setFormValues] = useState({
@@ -15,6 +16,8 @@ export default function Register() {
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +33,14 @@ export default function Register() {
         [name]: ''
       }));
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   const validateForm = () => {
@@ -173,38 +184,58 @@ export default function Register() {
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
               Password
             </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="new-password"
-              
-              className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
-                errors.password ? 'border-red-500' : 'border-gray-300'
-              } placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-              placeholder="Password"
-              value={formValues.password}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="new-password"
+                
+                className={`appearance-none rounded-md relative block w-full px-3 py-2 pr-10 border ${
+                  errors.password ? 'border-red-500' : 'border-gray-300'
+                } placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                placeholder="Password"
+                value={formValues.password}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="absolute cursor-pointer inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+                onClick={togglePasswordVisibility}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeIcon className="h-5 w-5" /> : <EyeOffIcon className="h-5 w-5" /> }
+              </button>
+            </div>
             {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
           </div>
           <div className="mt-4">
             <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700 mb-1">
               Confirm Password
             </label>
-            <input
-              id="confirm-password"
-              name="confirmPassword"
-              type="password"
-              autoComplete="new-password"
-              
-              className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
-                errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
-              } placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-              placeholder="Confirm Password"
-              value={formValues.confirmPassword}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <input
+                id="confirm-password"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                autoComplete="new-password"
+                
+                className={`appearance-none rounded-md relative block w-full px-3 py-2 pr-10 border ${
+                  errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+                } placeholder-gray-500 text-gray-900 dark:text-black focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+                placeholder="Confirm Password"
+                value={formValues.confirmPassword}
+                onChange={handleChange}
+              />
+              <button
+                type="button"
+                className="absolute cursor-pointer inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+                onClick={toggleConfirmPasswordVisibility}
+                aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+              >
+                {showConfirmPassword ?<EyeIcon className="h-5 w-5" />  : <EyeOffIcon className="h-5 w-5" /> }
+              </button>
+            </div>
             {errors.confirmPassword && <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>}
           </div>
         </div>
@@ -213,7 +244,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
+            className={`group relative w-full cursor-pointer flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
               loading ? 'bg-indigo-400' : 'bg-indigo-600 hover:bg-indigo-700'
             } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
           >
